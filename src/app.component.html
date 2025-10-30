@@ -1,0 +1,14 @@
+<main class="h-screen w-screen font-sans">
+  <div class="h-[calc(100%-64px)] overflow-y-auto">
+    <router-outlet></router-outlet>
+  </div>
+
+  <nav class="fixed bottom-0 left-0 right-0 h-16 bg-white border-t border-gray-200 flex justify-around items-center">
+    @for (item of navItems; track item.path) {
+      <a [routerLink]="item.path" routerLinkActive="text-blue-600" [class]="(activeRoute() === item.path ? 'text-blue-600' : 'text-gray-500') + ' flex flex-col items-center justify-center w-full h-full transition-colors duration-200'">
+        <div [innerHTML]="item.icon(activeRoute() === item.path)"></div>
+        <span class="text-xs font-medium">{{ item.label }}</span>
+      </a>
+    }
+  </nav>
+</main>

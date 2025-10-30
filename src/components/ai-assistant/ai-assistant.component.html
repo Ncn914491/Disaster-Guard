@@ -1,0 +1,59 @@
+<div class="flex flex-col h-full bg-gray-100">
+  <header class="bg-white p-4 border-b flex justify-between items-center">
+    <div class="flex items-center space-x-3">
+       <div class="bg-green-500 p-2 rounded-full">
+         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+       </div>
+       <div>
+         <h1 class="text-lg font-bold text-gray-800">AI Assistant</h1>
+         <p class="text-xs text-green-600">Online</p>
+       </div>
+    </div>
+    <button class="text-red-500 p-2 rounded-full hover:bg-red-100">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+    </button>
+  </header>
+
+  <div #chatContainer class="flex-grow p-4 overflow-y-auto space-y-4">
+    @for (message of chatHistory(); track $index) {
+      @if (message.role === 'user') {
+        <div class="flex justify-end">
+          <div class="bg-blue-600 text-white p-3 rounded-lg max-w-sm shadow">
+            <p>{{ message.text }}</p>
+          </div>
+        </div>
+      } @else {
+        <div class="flex justify-start">
+          <div class="bg-white text-gray-800 p-3 rounded-lg max-w-sm shadow border">
+             <p [innerHTML]="message.text"></p>
+          </div>
+        </div>
+      }
+    }
+    @if (isLoading()) {
+      <div class="flex justify-start">
+        <div class="bg-white text-gray-800 p-3 rounded-lg max-w-sm shadow border">
+          <div class="flex items-center space-x-2">
+            <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse"></div>
+            <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:0.2s]"></div>
+            <div class="w-2 h-2 bg-gray-400 rounded-full animate-pulse [animation-delay:0.4s]"></div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <footer class="bg-white p-4 border-t">
+    <div class="mb-2 flex flex-wrap gap-2">
+        <button (click)="sendQuickAction('First Aid Guide')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full">First Aid Guide</button>
+        <button (click)="sendQuickAction('Earthquake Safety')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full">Earthquake Safety</button>
+        <button (click)="sendQuickAction('Flood Evacuation')" class="text-xs bg-gray-200 text-gray-700 px-3 py-1 rounded-full">Flood Evacuation</button>
+    </div>
+    <div class="flex items-center space-x-2">
+      <input type="text" [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Ask anything about safety..." [disabled]="isLoading()" class="flex-grow p-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100">
+      <button (click)="sendMessage()" [disabled]="isLoading()" class="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 disabled:bg-blue-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+      </button>
+    </div>
+  </footer>
+</div>

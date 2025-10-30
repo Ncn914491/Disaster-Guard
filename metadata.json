@@ -1,0 +1,8 @@
+{
+  "name": "DisasterGuard",
+  "description": "A disaster response and emergency communication app featuring hazard maps, incident reporting, an AI assistant, and alerts to keep you safe and informed during critical events.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
